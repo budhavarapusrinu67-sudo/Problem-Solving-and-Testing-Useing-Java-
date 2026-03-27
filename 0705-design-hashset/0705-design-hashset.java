@@ -1,20 +1,20 @@
 class MyHashSet {
-
-    private boolean[] storage;
+    private boolean[] mp;
 
     public MyHashSet() {
-        storage = new boolean[1_000_001]; // Initialize array for keys in range [0, 1000000]
+        mp = new boolean[1000001];
+        Arrays.fill(mp, false);
     }
 
     public void add(int key) {
-        storage[key] = true; // Mark key as present
+        mp[key] = true;
     }
 
     public void remove(int key) {
-        storage[key] = false; // Mark key as absent
+        mp[key] = false;
     }
 
     public boolean contains(int key) {
-        return storage[key]; // Check if key is present
+        return mp[key];
     }
 }
