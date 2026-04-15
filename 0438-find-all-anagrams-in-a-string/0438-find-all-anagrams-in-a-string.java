@@ -1,36 +1,50 @@
 class Solution {
     public List<Integer> findAnagrams(String s, String p) {
-        ArrayList<Integer> ans= new ArrayList<>();
-        int pfreq []=new int [256];
-        int sfreq []=new int [256];
-        int low=0;
-        int len=0;
-        for(int i=0;i<p.length(); i++){
-            pfreq[p.charAt(i)]++;
+        ArrayList<Integer> l=new ArrayList<>();
+        if(s.length()<p.length()){
+            return l;
         }
-        for(int high=0; high<s.length(); high++){
-               sfreq[s.charAt(high)]++;
-               len=high-low+1;
-            
-               while(len>p.length()){
-                    sfreq[s.charAt(low)]--;
-                    low++;
-                    len = high - low + 1;
-                   
-               }
-                     if(isAnagram(sfreq,pfreq)){
-                    ans.add(low);
-                  }
+        int[] a=new int[26];
+        for(int i=0;i<p.length();i++){
+            a[p.charAt(i)-'a']++;
         }
-        return ans;
-    }
-
-    public boolean isAnagram(int []sfreq, int [] pfreq){
-        for(int i=0;i<256; i++ ){
-            if(pfreq[i]!=sfreq[i]){
-                return false;
+        int q=0;
+        for(int i=0;i<26;i++){
+            if(a[i]!=0){
+                q++;
             }
         }
-        return true;
+        int i=0;
+        int j=p.length()-1;
+        int[] b=new int[26];
+        for(int k=i;k<=j;k++){
+            b[s.charAt(k)-'a']++;
+        }
+        int x=0;
+        while(j<s.length()-1){
+            x=0;
+            for(int k=0;k<26;k++){
+                if(a[k]!=0&&a[k]==b[k]){
+                    x++;
+                }
+            }
+            if(q==x){
+                l.add(i);
+            }
+            i++;
+            j++;
+            b[s.charAt(j)-'a']++;
+            b[s.charAt(i-1)-'a']--;
+        }
+        x=0;
+        for(int k=0;k<26;k++){
+            if(a[k]!=0&&a[k]==b[k]){
+                x++;
+            }
+        }
+        if(q==x){
+            l.add(i);
+        }
+        return l;
     }
 }
