@@ -1,43 +1,23 @@
-class Pair {
-    private String name;
-    private int height;
-    public Pair(String name, int height) {
-        this.name = name;
-        this.height = height;
-    }
-
-    public String getName() {
-        return this.name;
-    }
-
-    public int getHeight() {
-        return this.height;
-    }
-}
 class Solution {
     public String[] sortPeople(String[] names, int[] heights) {
-        PriorityQueue<Pair> maxHeap = new PriorityQueue<>(
-            new Comparator<>() {
-                @Override 
-                public int compare(Pair a, Pair b) {
-                    return b.getHeight() - a.getHeight();
-                }
-            }
-        );
+        int n = names.length;
+        Map<Integer, String> mapping = new HashMap<>();
 
-        int index = 0;
-        while(index < names.length) {
-            maxHeap.add(new Pair(names[index], heights[index]));
-            index++;
+        for (int i = 0; i < n; ++i) {
+            mapping.put(heights[i], names[i]);
         }
 
-        index = 0;
-        
-        String[] result = new String[names.length];
-        while(!maxHeap.isEmpty()) {
-            result[index++] = maxHeap.poll().getName();
+        Arrays.sort(heights);
+        for (int i = 0; i < n / 2; ++i) {
+            int temp = heights[i];
+            heights[i] = heights[n - 1 - i];
+            heights[n - 1 - i] = temp;
         }
 
-        return result;
+        for (int i = 0; i < n; ++i) {
+            names[i] = mapping.get(heights[i]);
+        }
+
+        return names;
     }
 }
