@@ -1,14 +1,24 @@
 class Solution {
-    public int[][] transpose(int[][] mat) {
-        int n = mat.length;
-        int m = mat[0].length;
-        int arr[][] = new int[m][n];
-        for(int i=0;i<n;i++){
-            for(int j=0;j<m;j++){
-                arr[j][i]=mat[i][j];
+    public int[][] transpose(int[][] matrix) {
+        List<List<Integer>> resList = new ArrayList<>();
+
+        for (int c = 0; c < matrix[0].length; c++) {
+            List<Integer> temp = new ArrayList<>();
+
+            for (int r = 0; r < matrix.length; r++) {
+                temp.add(matrix[r][c]);
             }
+
+            resList.add(temp);
         }
 
-        return arr;
+        // Convert List<List<Integer>> to int[][]
+        int[][] res = new int[resList.size()][];
+        for (int i = 0; i < resList.size(); i++) {
+            List<Integer> row = resList.get(i);
+            res[i] = row.stream().mapToInt(Integer::intValue).toArray();
+        }
+
+        return res;        
     }
 }
